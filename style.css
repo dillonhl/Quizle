@@ -1,10 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
+html {
+    background-size: cover;
+    background-position: center;
+    background-image: url(bg4.jpg)
+}
+
 body, html{
     height: 100%;
     margin: 0;
     font-family: 'Poppins', sans-serif;
-    background: linear-gradient(#1c1917 50%, #ffb92a 50%);
+   /*  background: linear-gradient(#1c1917 50%, #ffb92a 50%); */
     color: #333;
     display: flex;
     align-items: center;
@@ -14,15 +20,21 @@ body, html{
 
 #quiz-container{
     width: 420px;
-    background-color: #fff;
+    background-color: #FAF9F6;
     padding: 40px;
     border-radius: 20px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
     margin: 20px;
+    display: block;
 }
 
 #game-setup div{
     margin: 10px 0;
+}
+
+#game-setup h1 {
+    margin-top: 0px;
+    font-size: 2.5em;
 }
 
 #game-setup label{
@@ -46,12 +58,12 @@ body, html{
 
 #start-btn{
     padding: 12px 25px;
-    background-color: #1c1917;
+    background-color: #333;
     color: #fff;
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    font-size: 1em;
+    font-size: 1.1rem;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
     transition: background-color 0.3s ease, transform 0.1s ease;
     width: 100%;
@@ -112,20 +124,136 @@ body, html{
 .incorrect{
     background-color: #f44336 !important;
 }
+ 
+#quiz button:hover {
+    background-color: #e64a19;
+    transform: scale(1.05);
+}
 
-button{
-    padding: 12px 15px;
-    background-color: #ff5722;
+.logout-button {
+    display: none;
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    padding: 10px 20px;
+    font-size: 1em;
     color: #fff;
+    background-color: #333;
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    font-size: 1.1em;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    transition: transform 0.1s ease;
+  }
+
+.logout-button:hover {
+    background-color: #e64a19;
+    transform: scale(1.05);
+}
+
+#leaderboard-container {
+    width: 420px;
+    background-color: #FAF9F6;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    margin: 20px;
+    display: none;
+}
+
+#leaderboard-container h1 {
+    margin-top: 0px;
+    font-size: 2.5em;
+}
+
+#leaderboard-container ul{
+    list-style: none; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    padding: 0;
+}
+
+#leaderboard-container #type li button{
+    border: #333;
+    background-color: lightgray;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    padding: 10px 24px;
+    transition-duration: 0.4s;
+    border-radius: 8px;
     transition: background-color 0.3s ease, transform 0.1s ease;
 }
 
-button:hover{
-    background-color: #e64a19;
+#leaderboard-container #type li button:hover{
+    cursor: pointer;
+    background-color: #15aabf;
     transform: scale(1.05);
+}
+#leaderboard-container #type li button.active{
+    background-color: #333;
+    color: white;
+}
+
+.pagination {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0px;
+}
+
+.pagination li button{
+    border: 0;
+    background-color: transparent;
+}
+
+.pagination li button:hover{
+    cursor: pointer;
+    text-decoration: underline;
+}
+.pagination li button.active{
+    text-decoration: underline;
+    font-weight: 300;
+}
+
+#leaderboard-container input {
+    margin-top: 0px;
+    font-size: 1em;
+}
+
+#leaderboard-container table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+#leaderboard-container table thead tr{
+    font-weight: 900;
+}
+
+#leaderboard-container table tbody tr{
+    font-weight: 800;
+    border-radius: 8px;
+}
+
+#leaderboard-container table tbody tr:hover{
+    font-weight: 800;
+    cursor: pointer;
+    background-color: lightgray;
+    
+}
+
+#leaderboard-container table tbody tr:first-child {
+    color: #D1B000;
+}
+#leaderboard-container table tbody tr:nth-child(2) {
+    color: #C0C0C0;
+}
+#leaderboard-container table tbody tr:nth-child(3) {
+    color: #CD7F32;
 }

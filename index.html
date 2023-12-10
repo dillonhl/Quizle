@@ -5,13 +5,60 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="login-signup.css">
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
     <title>Quiz Game</title>
 </head>
 
 <body>
+    <button id="logout-button" class="logout-button">Logout</button>
+    <div id="login-container">
+        <form class="form" id="login">
+            <h1 class="form__title">Login</h1>
+            <div class="form__message form_message--error"></div>
+            <div class="form__input-group">
+                <input type="text" class="form__input" id="email" autoFocus placeholder="Email"></input>
+                <div class="form__input--error-message"></div>
+            </div>
+            <div class="form__input-group">
+                <input type="password" class="form__input" id="password" placeholder="Password"></input>
+                <div class="form__input--error-message"></div>
+            </div>
+            <button class="form__button" type="submit">Login</button>
+        </form>
+        <button class="switch__form" id="linkCreateAccount">Don't have an account? Sign up here</button>
+    </div>
 
-    <div id="quiz-container">
+    <div id="signup-container">
+        <form class="form" id="createAccount">
+            <h1 class="form__title">Create Account</h1>
+            <div class="form__message form_message--error"></div>
+            <div class="form__input-group">
+                <input type="text" id="username" class="form__input" autoFocus placeholder="Username"></input>
+                <div class="form__input-error-message"></div>
+            </div>
+            <div class="form__input-group">
+                <input type="text" id="email" class="form__input" placeholder="Email Address"></input>
+                <div class="form__input-error-message"></div>
+            </div>
+            <div class="form__input-group">
+                <input type="password" id="password" class="form__input" placeholder="Password"></input>
+                <div class="form__input-error-message"></div>
+            </div>
+            <div class="form__input-group">
+                <input type="password" id="confirmPassword" class="form__input" placeholder="Confirm Password"></input>
+                <div class="form__input-error-message"></div>
+            </div>
+            <button class="form__button" type="submit">Create account</button>
+        </form>                  
+        <button class="switch__form" id="linkLogin">Already have an account? Login here</button>
+    </div>
+
+    <div id="quiz-container" style="display: none;">
         <div id="game-setup">
+            <h1>Quizle</h1>
             <div>
                 <label for="category">Choose a Category:</label>
                 <select id="category">
@@ -20,7 +67,13 @@
             </div>
             <div>
                 <label for="amount">Number of Questions:</label>
-                <input type="number" id="amount" min="1" max="50" value="10">
+                <!--input type="number" id="amount" min="1" max="50" value="10"-->
+                <select id="amount">
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                </select>
             </div>
             <div>
                 <label for="difficulty">Select Difficulty:</label>
@@ -40,6 +93,76 @@
             <div id="question"></div>
             <div id="answers"></div>
             <div id="result"></div>
+        </div>
+    </div>
+    <div id="leaderboard-container" >
+        <h1>Leaderboard</h1>
+        <ul id="type">
+            <li><button id="10s" class="active">10 Qs</button></li>
+            <li><button id="20s">20 Qs</button></li>
+            <li><button id="25s">25 Qs</button></li>
+            <li><button id="50s">50 Qs</button></li>
+        </ul>
+        <div id="leaderboard-10" style="display: block;">
+            <label for="search">Search:</label>
+            <input class="search" type="text" id="search-10" placeholder="Enter username...">
+            <table id="leaderboard-10">
+                <thead>
+                    <th>Rank</th>
+                    <th>Username</th>
+                    <th>Score</th>
+                </thead>
+                <tbody>
+                    
+                </tbody>
+            </table>
+            <ul class="pagination">
+            </ul>
+        </div>
+        <div id="leaderboard-20" style="display: none;">
+            <label for="search">Search:</label>
+            <input class="search" type="text" id="search-20" placeholder="Enter username...">
+            <table id="leaderboard-20">
+                <thead>
+                    <th>Rank</th>
+                    <th>Username</th>
+                    <th>Score</th>
+                </thead>
+                <tbody>
+                    
+                </tbody>
+            </table>
+            <ul class="pagination"></ul>
+        </div>
+        <div id="leaderboard-25" style="display: none;">
+            <label for="search">Search:</label>
+            <input class="search" type="text" id="search-25" placeholder="Enter username...">
+            <table id="leaderboard-25">
+                <thead>
+                    <th>Rank</th>
+                    <th>Username</th>
+                    <th>Score</th>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+            <ul class="pagination"></ul>
+        </div>
+        <div id="leaderboard-50" style="display: none;">
+            <label for="search">Search:</label>
+            <input class="search" type="text" id="search-50" placeholder="Enter username...">
+            <table id="leaderboard-50">
+                <thead>
+                    <th>Rank</th>
+                    <th>Username</th>
+                    <th>Score</th>
+                </thead>
+                <tbody>
+                    
+                </tbody>
+            </table>
+            <ul class="pagination"></ul>
         </div>
     </div>
 
