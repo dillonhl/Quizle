@@ -6,6 +6,7 @@ Quizle is a fun and interactive trivia game built using JavaScript, HTML, and CS
 
 - Multiple choice and True/False questions from a wide range of categories.
 - High score tracking to monitor your progress to challenge yourself and see where your general knowledge is at.
+- The faster you answer, the better score you get for that question
 
 ## How to Play
 
