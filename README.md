@@ -14,3 +14,4 @@ Head on over to https://dillonhl.github.io/Quizle/
 ## Acknowledgements
 
 Quizle wouldn't be possible without the [OpenTDB API](https://opentdb.com/). Huge thanks to them for providing their database and API free of charge.
+Thank you to ASMR Prog for inspiration.
