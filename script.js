@@ -186,7 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
             getUser(userCredential.user.uid);
         }).catch((error) => { 
             var errorCode = error.code;
-            var errorMessage = error.message;
+            var errorMessage = "Invalid email or password";
             setFormMessage(loginForm, "error", errorMessage);
         });
         
@@ -203,35 +203,39 @@ document.addEventListener('DOMContentLoaded', () => {
             if (doc.exists) {
                 setFormMessage(createAccountForm, "error", "Username already exists");
             } else {
-                if (password === confirmPassword && password.length > 0) {
-                    auth.createUserWithEmailAndPassword(email, password).then((userCredential) => {
-                        setFormMessage(createAccountForm, "success", "");
-                        // Add user to database
-                        db.collection("Users").doc(username).set({
-                            username: username,
-                            user_id: userCredential.user.uid,
-                            email: email,
-                            highscore_10: 0,
-                            highscore_20: 0,
-                            highscore_25: 0,
-                            highscore_50: 0,
-                        }).then(() => {
-                            console.log("Document successfully written!");
+                if (password.length >= 6) {
+                    if (password === confirmPassword) {
+                        auth.createUserWithEmailAndPassword(email, password).then((userCredential) => {
+                            setFormMessage(createAccountForm, "success", "");
+                            // Add user to database
+                            db.collection("Users").doc(username).set({
+                                username: username,
+                                user_id: userCredential.user.uid,
+                                email: email,
+                                highscore_10: 0,
+                                highscore_20: 0,
+                                highscore_25: 0,
+                                highscore_50: 0,
+                            }).then(() => {
+                                console.log("Document successfully written!");
+                            }).catch((error) => {
+                                var errorMessage = error.message;
+                                console.log("error:" + errorMessage);
+                                setFormMessage(createAccountForm, "error", errorMessage);
+                            });
                         }).catch((error) => {
+                            var errorCode = error.code;
                             var errorMessage = error.message;
                             console.log("error:" + errorMessage);
                             setFormMessage(createAccountForm, "error", errorMessage);
                         });
-                    }).catch((error) => {
-                        var errorCode = error.code;
-                        var errorMessage = error.message;
-                        console.log("error:" + errorMessage);
-                        setFormMessage(createAccountForm, "error", errorMessage);
-                    });
+                    }
+                    else {
+                        setFormMessage(createAccountForm, "error", "Passwords do not match");
+                    }
                 }
                 else {
-                    console.log("Passwords do not match")
-                    setFormMessage(createAccountForm, "error", "Passwords do not match");
+                    setFormMessage(createAccountForm, "error", "Password must be at least 6 characters long");
                 }
             }
         });
