@@ -145,7 +145,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Switch to Create Account
     document.querySelector("#linkCreateAccount").addEventListener("click", e => {
-        console.log("Create Account")
         e.preventDefault();
         loginContainer.style.display = "none";
         createAccountContainer.style.display = "block";
@@ -159,10 +158,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Get User
     const getUser = (user_id) => {
-        console.log("getUser")
         db.collection("Users").where("user_id", "==", user_id).get().then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
-                console.log(doc.id, " => ", doc.data());
                 // get user's highscore from doc.data()
                 username = doc.data().username;
                 highScore_10 = doc.data().highscore_10;
@@ -185,7 +182,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const password = document.querySelector("#login #password").value;
         // Perform Login
         auth.signInWithEmailAndPassword(email, password).then((userCredential) => {
-            console.log('User sign in successful');
             setFormMessage(loginForm, "success", "");
             getUser(userCredential.user.uid);
         }).catch((error) => { 
@@ -205,13 +201,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // Perform Create account
         db.collection("Users").doc(username).get().then((doc) => {
             if (doc.exists) {
-                console.log("Username already exists");
                 setFormMessage(createAccountForm, "error", "Username already exists");
             } else {
                 if (password === confirmPassword && password.length > 0) {
                     auth.createUserWithEmailAndPassword(email, password).then((userCredential) => {
-                        console.log('User is created');
-                        console.log(userCredential);
                         setFormMessage(createAccountForm, "success", "");
                         // Add user to database
                         db.collection("Users").doc(username).set({
@@ -285,7 +278,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Navbar event listeners
     homeButton.addEventListener('click', () => {
-        console.log("home   ");
         quizContainer.style.display = "block";
         leaderboardContainer.style.display = "none";
     });
@@ -327,7 +319,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const searchValue = e.target.value.toLowerCase();
         const container = e.target.parentElement;
         const table = container.querySelector('table');
-        console.log(table)
         const rows = table.getElementsByTagName('tr');
         let filteredRows_20 = [];
         for (let i = 0; i < rows.length; i++) {
@@ -617,9 +608,6 @@ document.addEventListener('DOMContentLoaded', () => {
                                                     question_amount === "20" ? highScore_20 : 
                                                     question_amount === "25" ? highScore_25 : 
                                                     highScore_50}`;
-        //highScoreDisplay.innerText = `High Score: ${highScore}`;
-        console.log(question_amount);
-        console.log(highScoreDisplay.innerText, highScore_10)
     }
 
     function updateProgress() {
