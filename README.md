@@ -1,6 +1,6 @@
 # Quizle - A Trivia Game
 
-Quizle is a fun and interactive trivia game built using JavaScript, HTML, and CSS. It leverages the OpenTDB database and API to generate a wide variety of questions and answers, providing endless entertainment and learning opportunities.
+Quizle is a fun and interactive trivia game built using JavaScript, HTML, and CSS. Firebase/Firestore is utilized for user authentication and keeping track of high scores. It leverages the OpenTDB database and API to generate a wide variety of questions and answers, providing endless entertainment and learning opportunities.
 
 ## Features
 
