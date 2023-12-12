@@ -59,7 +59,15 @@
     <div id="quiz-container" style="display: none;">
         <div id="game-setup">
             <h1>Quizle</h1>
-            <div>
+            <div class="nav">
+                <button class="nav-btn active">Home</button>
+                <button class="nav-btn" id="leaderboard-btn">Leaderboard</button>
+            </div>
+            <div class="user-info" style="display: flex; justify-content: center;">
+                <div style="padding-right: 10px;">Logged in as: </div>
+                <div id="display-name" style="font-weight: 800;"></div>
+            </div>
+            <div style="display: none;">
                 <label for="category">Choose a Category:</label>
                 <select id="category">
                     <option value="">Any Category</option>
@@ -74,8 +82,9 @@
                     <option value="25">25</option>
                     <option value="50">50</option>
                 </select>
+                <div id="menu-highscore"></div>
             </div>
-            <div>
+            <div style="display: none;">
                 <label for="difficulty">Select Difficulty:</label>
                 <select id="difficulty">
                     <option value="">Any Difficulty</option>
@@ -92,11 +101,18 @@
             <div id="highScore"></div>
             <div id="question"></div>
             <div id="answers"></div>
+            <div id="quit">
+                <button id="quit-btn">Quit</button>
+            </div>
             <div id="result"></div>
         </div>
     </div>
     <div id="leaderboard-container" >
         <h1>Leaderboard</h1>
+        <div class="nav">
+            <button class="nav-btn" id="home-btn">Home</button>
+            <button class="nav-btn active">Leaderboard</button>
+        </div>
         <ul id="type">
             <li><button id="10s" class="active">10 Qs</button></li>
             <li><button id="20s">20 Qs</button></li>

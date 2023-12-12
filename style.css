@@ -130,6 +130,17 @@ body, html{
     transform: scale(1.05);
 }
 
+#quiz #quit button {
+    margin-top: 20px;
+    border-radius: 8px;
+    transition: transform 0.1s ease;
+}
+
+#quiz #quit button:hover{
+    background-color: #e64a19;
+    transform: scale(1.15);
+}
+
 .logout-button {
     display: none;
     position: fixed;
@@ -150,6 +161,36 @@ body, html{
     transform: scale(1.05);
 }
 
+.nav {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+    background-color: #f8f8f8;
+}
+
+.nav .nav-btn {
+    flex: 1;
+    margin: 0 10px;
+    padding: 10px;
+    font-size: 16px;
+    text-align: center;
+    background-color: gray;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.1s ease;
+    border-radius: 8px;
+}
+
+.nav .nav-btn:hover {
+    background-color: #15aabf;
+    transform: scale(1.05);
+}
+
+.nav .nav-btn.active {
+    background-color: #15aabf;
+}
+
 #leaderboard-container {
     width: 420px;
     background-color: #FAF9F6;
@@ -158,6 +199,7 @@ body, html{
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
     margin: 20px;
     display: none;
+    min-height: 480px;
 }
 
 #leaderboard-container h1 {
@@ -174,7 +216,8 @@ body, html{
 }
 
 #leaderboard-container #type li button{
-    border: #333;
+    border: none;
+    color: white;
     background-color: lightgray;
     text-align: center;
     text-decoration: none;

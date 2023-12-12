@@ -89,12 +89,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const createAccountContainer = document.getElementById('signup-container');
     const logoutButton = document.getElementById('logout-button');
 
+    const homeButton = document.getElementById('home-btn');
+    const leaderboardButton = document.getElementById('leaderboard-btn');
+    const leaderboardContainer = document.getElementById('leaderboard-container');
     const quizContainer = document.getElementById('quiz-container');
     const questionContainer = document.getElementById('question');
     const answersContainer = document.getElementById('answers');
     const resultContainer = document.getElementById('result');
     const progressContainer = document.getElementById('progress');
     const currentScoreDisplay = document.getElementById('currentScore');
+    const displayName = document.getElementById('display-name');
+    const menuHighScoreDisplay = document.getElementById('menu-highscore');
     const highScoreDisplay = document.getElementById('highScore');
     const gameSetupDiv = document.getElementById('game-setup');
     const quizDiv = document.getElementById('quiz');
@@ -102,6 +107,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const amountInput = document.getElementById('amount');
     const difficultySelect = document.getElementById('difficulty');
     const startButton = document.getElementById('start-btn');
+    const quit = document.getElementById('quit');
+    const quitButton = document.getElementById('quit-btn');
     const leaderboard_10_div = document.getElementById('leaderboard-10');
     const leaderboard_20_div = document.getElementById('leaderboard-20');
     const leaderboard_25_div = document.getElementById('leaderboard-25');
@@ -115,16 +122,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const table_25 = document.querySelector('#leaderboard-25 tbody');
     const table_50 = document.querySelector('#leaderboard-50 tbody');
 
-    // Take this out later
-    let highScore = parseInt(localStorage.getItem('HighScoreTrivia')) || 0;
-
     // User variables
     let highScore_10 = 0;
     let highScore_20 = 0;
     let highScore_25 = 0;
     let highScore_50 = 0;
     let username = "";
-    let question_amount = 10;
+    let question_amount = "10";
 
     // Game Variables
     let currentQuestions = [];
@@ -133,8 +137,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let questionStartTime;
     const baseScorePerQuestion = 1000;
     const penaltyPerSecond = 10;
-
-    highScoreDisplay.innerText = `High Score: ${highScore}`;
 
     let leaderboard_10 = [];
     let leaderboard_20 = [];
@@ -159,6 +161,28 @@ document.addEventListener('DOMContentLoaded', () => {
         loginContainer.style.display = "block";
         createAccountContainer.style.display = "none";
     });
+
+    // Get User
+    const getUser = (user_id) => {
+        console.log("getUser")
+        db.collection("Users").where("user_id", "==", user_id).get().then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                console.log(doc.id, " => ", doc.data());
+                // get user's highscore from doc.data()
+                username = doc.data().username;
+                highScore_10 = doc.data().highscore_10;
+                highScore_20 = doc.data().highscore_20;
+                highScore_25 = doc.data().highscore_25;
+                highScore_50 = doc.data().highscore_50;
+                displayName.innerText = `${username}`;
+                updateMenuHighScore();                                     
+            });
+        })
+        .catch((error) => {
+            console.log("Error getting documents: ", error);
+        });
+    }
+    
     //Login submit
     loginForm.addEventListener("submit", e => {
         e.preventDefault();
@@ -168,20 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
         auth.signInWithEmailAndPassword(email, password).then((userCredential) => {
             console.log('User sign in successful');
             setFormMessage(loginForm, "success", "");
-            db.collection("Users").where("user_id", "==", userCredential.user.uid).get().then((querySnapshot) => {
-                querySnapshot.forEach((doc) => {
-                    console.log(doc.id, " => ", doc.data());
-                    // get user's highscore from doc.data()
-                    username = doc.data().username;
-                    highScore_10 = doc.data().highscore_10;
-                    highScore_20 = doc.data().highscore_20;
-                    highScore_25 = doc.data().highscore_25;
-                    highScore_50 = doc.data().highscore_50;
-                });
-            })
-            .catch((error) => {
-                console.log("Error getting documents: ", error);
-            });
+            getUser(userCredential.user.uid);
         }).catch((error) => { 
             var errorCode = error.code;
             var errorMessage = error.message;
@@ -259,14 +270,37 @@ document.addEventListener('DOMContentLoaded', () => {
             loginContainer.style.display = "none";
             quizContainer.style.display = "block";
             logoutButton.style.display = "block";
-            // Get user's highscore from database
+            // Get user's highscore and info from database
+            getUser(user.uid);
+            
         } else {
             // User is signed out
             loginContainer.style.display = "block";
             quizContainer.style.display = "none";
             logoutButton.style.display = "none";
+            gameSetupDiv.style.display = 'block';
+            quizDiv.style.display = 'none';
         }
       });
+
+    // Navbar event listeners
+    homeButton.addEventListener('click', () => {
+        console.log("home   ");
+        quizContainer.style.display = "block";
+        leaderboardContainer.style.display = "none";
+    });
+
+    leaderboardButton.addEventListener('click', () => {
+        quizContainer.style.display = "none";
+        leaderboardContainer.style.display = "block";
+    });
+
+    function updateMenuHighScore() {
+        menuHighScoreDisplay.innerText = `High Score: ${question_amount === "10" ? highScore_10 :
+                                                    question_amount === "20" ? highScore_20 :
+                                                    question_amount === "25" ? highScore_25 :
+                                                    highScore_50}`;
+    }
     
     // Leaderboard event listeners for search
     document.getElementById('search-10').addEventListener('input', (e) => {
@@ -322,7 +356,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 let usernameValue = username.textContent || username.innerText;
                 if (usernameValue.toLowerCase().indexOf(searchValue) > -1) {
                     filteredRows_25.push(rows[i]);
-                    //rows[i].style.display = '';
                 } else {
                     rows[i].style.display = 'none';
                 }
@@ -380,6 +413,10 @@ document.addEventListener('DOMContentLoaded', () => {
         leaderboard_50_div.style.display = 'block';
     });
 
+    quitButton.addEventListener('click', () => {
+        restart();
+    });
+
     function changeActive (btn) {
         let buttons = document.querySelectorAll('#type button');
         for (let button of buttons) {
@@ -406,6 +443,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const difficulty = difficultySelect.value;
         fetchQuestions(amount, category, difficulty);
         question_amount = amount;
+        highScoreDisplay.innerText = `High Score: ${question_amount === "10" ? highScore_10 :
+                                                    question_amount === "20" ? highScore_20 :
+                                                    question_amount === "25" ? highScore_25 :
+                                                    highScore_50}`;
+        currentScoreDisplay.innerText = `Current Score: 0`;
         gameSetupDiv.style.display = 'none';
         quizDiv.style.display = 'block';
     }
@@ -414,7 +456,8 @@ document.addEventListener('DOMContentLoaded', () => {
         let url = `https://opentdb.com/api.php?amount=${amount}`;
         if (category) url += `&category=${category}`;
         if (difficulty) url += `&difficulty=${difficulty}`;
-        url += `&type=multiple`;
+        //url += `&type=multiple`;
+        quitButton.style.display = '';
 
         fetch(url).then(response => response.json()).then(data => {
             currentQuestions = data.results;
@@ -434,6 +477,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             updateHighScore();
             showResults();
+            quitButton.style.display = 'none';
         }
     }
 
@@ -478,7 +522,7 @@ document.addEventListener('DOMContentLoaded', () => {
             questionIndex++;
             displayQuestion();
             resultContainer.innerText = '';
-        }, 1000);
+        }, 2000);
     }
 
     function updateCurrentScore() {
@@ -501,25 +545,81 @@ document.addEventListener('DOMContentLoaded', () => {
         const restartButton = document.createElement('button');
         restartButton.textContent = 'Restart Quiz';
         restartButton.addEventListener('click', () => {
-            quizDiv.style.display = 'none';
-            gameSetupDiv.style.display = 'block';
-            fetchCategories();
+            restart();
         });
         answersContainer.appendChild(restartButton);
     }
 
+    function restart() {
+        quizDiv.style.display = 'none';
+        gameSetupDiv.style.display = 'block';
+        fetchCategories();
+        updateMenuHighScore();
+    }
+
     function updateHighScore() {
-        if (score > highScore) {
-            highScore = score;
-            localStorage.setItem('HighScoreTrivia', highScore.toString());
-            console.log(question_amount);
-            updateHighScoreDisplay();
+        if (question_amount === "10") {
+            if (score > highScore_10) {
+                highScore_10 = score;
+                db.collection("Users").doc(username).update({
+                    highscore_10: highScore_10
+                }).then(() => {
+                    console.log("Document successfully written!");
+                }).catch((error) => {
+                    var errorMessage = error.message;
+                    console.log("error:" + errorMessage);
+                });
+            }
+        } 
+        else if (question_amount === "20") {
+            if (score > highScore_20) {
+                highScore_20 = score;
+                db.collection("Users").doc(username).update({
+                    highscore_20: highScore_20
+                }).then(() => {
+                    console.log("Document successfully written!");
+                }).catch((error) => {
+                    var errorMessage = error.message;
+                    console.log("error:" + errorMessage);
+                });
+            }
+        } 
+        else if (question_amount === "25") {
+            if (score > highScore_25) {
+                highScore_25 = score;
+                db.collection("Users").doc(username).update({
+                    highscore_25: highScore_25
+                }).then(() => {
+                    console.log("Document successfully written!");
+                }).catch((error) => {
+                    var errorMessage = error.message;
+                    console.log("error:" + errorMessage);
+                });
+            }
+        } 
+        else if (question_amount === "50") {
+            if (score > highScore_50) {
+                highScore_50 = score;
+                db.collection("Users").doc(username).update({
+                    highscore_50: highScore_50
+                }).then(() => {
+                    console.log("Document successfully written!");
+                }).catch((error) => {
+                    var errorMessage = error.message;
+                    console.log("error:" + errorMessage);
+                });
+            }
         }
     }
 
     function updateHighScoreDisplay() {
-        highScoreDisplay.innerText = `High Score: ${highScore}`;
+        highScoreDisplay.innerText = `High Score: ${question_amount === "10" ? highScore_10 : 
+                                                    question_amount === "20" ? highScore_20 : 
+                                                    question_amount === "25" ? highScore_25 : 
+                                                    highScore_50}`;
+        //highScoreDisplay.innerText = `High Score: ${highScore}`;
         console.log(question_amount);
+        console.log(highScoreDisplay.innerText, highScore_10)
     }
 
     function updateProgress() {
@@ -539,8 +639,15 @@ document.addEventListener('DOMContentLoaded', () => {
         return txt.value;
     }
 
+    amountInput.addEventListener('change', () => {
+        question_amount = amountInput.value;
+        updateMenuHighScore();
+    });
+
     startButton.addEventListener('click', startGame);
 
     fetchCategories();
+
+    let leaderboard_rows = document.querySelectorAll('table tbody tr');
 
 });
