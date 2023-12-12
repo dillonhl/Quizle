@@ -142,11 +142,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let leaderboard_20 = [];
     let leaderboard_25 = [];
     let leaderboard_50 = [];
-    
-    createLeaderboard(leaderboard_10, table_10, "highscore_10");
-    createLeaderboard(leaderboard_20, table_20, "highscore_20");
-    createLeaderboard(leaderboard_25, table_25, "highscore_25");
-    createLeaderboard(leaderboard_50, table_50, "highscore_50");
 
     // Switch to Create Account
     document.querySelector("#linkCreateAccount").addEventListener("click", e => {
@@ -272,6 +267,11 @@ document.addEventListener('DOMContentLoaded', () => {
             logoutButton.style.display = "block";
             // Get user's highscore and info from database
             getUser(user.uid);
+            // Get Leaderboards
+            createLeaderboard(leaderboard_10, table_10, "highscore_10");
+            createLeaderboard(leaderboard_20, table_20, "highscore_20");
+            createLeaderboard(leaderboard_25, table_25, "highscore_25");
+            createLeaderboard(leaderboard_50, table_50, "highscore_50");
             
         } else {
             // User is signed out
@@ -543,7 +543,7 @@ document.addEventListener('DOMContentLoaded', () => {
         updateHighScoreDisplay();
         progressContainer.innerText = '';
         const restartButton = document.createElement('button');
-        restartButton.textContent = 'Restart Quiz';
+        restartButton.textContent = 'Return to home';
         restartButton.addEventListener('click', () => {
             restart();
         });
