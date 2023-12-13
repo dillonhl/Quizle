@@ -300,3 +300,10 @@ body, html{
 #leaderboard-container table tbody tr:nth-child(3) {
     color: #CD7F32;
 }
+
+@media screen and (max-width: 600px) {
+    #quiz-container, #leaderboard-container, #login-container, #signup-container{
+        padding: 10px;
+    }
+    
+}
