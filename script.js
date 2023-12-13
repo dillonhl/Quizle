@@ -51,7 +51,7 @@ async function createLeaderboard(leaderboard_array, table, item) {
 }
 
 function displayPage(table, page, rows) {
-    const rowsPerPage = 8;
+    const rowsPerPage = 6;
     // Hide all rows
     for (let row of rows) {
         row.style.display = 'none';
