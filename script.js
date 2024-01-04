@@ -272,6 +272,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
         } else {
             // User is signed out
+            console.log("User is signed out")
             loginContainer.style.display = "block";
             quizContainer.style.display = "none";
             logoutButton.style.display = "none";
