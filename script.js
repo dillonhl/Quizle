@@ -248,6 +248,12 @@ document.addEventListener('DOMContentLoaded', () => {
             // Sign-out successful.
             console.log("Sign-out successful");
             // Clear everything to default
+            console.log("User is signed out")
+            loginContainer.style.display = "block";
+            quizContainer.style.display = "none";
+            logoutButton.style.display = "none";
+            gameSetupDiv.style.display = 'block';
+            quizDiv.style.display = 'none';
         }).catch((error) => {
             // An error happened.
             console.log("An error happened");
