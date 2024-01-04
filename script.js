@@ -218,6 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 highscore_50: 0,
                             }).then(() => {
                                 console.log("Document successfully written!");
+                                location.reload();
                             }).catch((error) => {
                                 var errorMessage = error.message;
                                 console.log("error:" + errorMessage);
@@ -279,6 +280,14 @@ document.addEventListener('DOMContentLoaded', () => {
             gameSetupDiv.style.display = 'block';
             quizDiv.style.display = 'none';
             leaderboardContainer.style.display = "none";
+            leaderboard_10.length = 0;
+            leaderboard_20.length = 0;
+            leaderboard_25.length = 0;
+            leaderboard_50.length = 0;
+            table_10.innerHTML = '';
+            table_20.innerHTML = '';
+            table_25.innerHTML = '';
+            table_50.innerHTML = '';
         }
       });
 
